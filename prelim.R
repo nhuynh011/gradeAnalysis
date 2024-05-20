@@ -66,20 +66,41 @@ preCOVID <- read_xlsx("datafor_r.xlsx")
 
 # Clean
 # time here is if the class is MWF or TuTh, where MWF is 1.
-names(preCOVID) <- c("aem", "calc1", "calc2", "calc3", "diffeq", "gpapr", "gradyr", "iphone", "time", "mjdegrees", "mndegrees", "NUniPre", "PhAlwys", "PhAwy", "PhDistr", "PhOnce", "screentime")
-preCOVID <- past|> mutate(year = 18,
+names(preCOVID) <- c("aem", "gradecalc1", "gradecalc2", "gradecalc3", "gradediffeq", "gpapr", "gradyr", "iphone", "time", "mjdegrees", "mndegrees", "NUniPre", "PhAlwys", "PhAwy", "PhDistr", "PhOnce", "screentime")
+preCOVID <- preCOVID|> mutate(year = 18,
                   semester = 0, #fall = 0, spring = 1
                   coursecode = 330)
 preCOVID <- preCOVID|>relocate(c("year", "semester", "time", "coursecode"))
+preCOVID <- preCOVID|>relocate("mndegrees", .after = "iphone")
 
-# Now do some general graphs
-ggplot(calc3total, aes(x = factor(time), y = iphone)) + 
+# rbind all together by common columns
+common <- colnames(select(postCOVID, c("year", "semester", "time", "coursecode", "iphone", "mndegrees", "gradecalc2", "screentime")))
+all <- rbind(
+  subset(preCOVID, select = common), 
+  subset(postCOVID, select = common)
+)
+
+# Now do some general graphs throughout covid
+ggplot(all, aes(x = factor(year), y = iphone)) + 
+  geom_bar(stat = "summary", fun = "mean") 
+
+ggplot(all, aes(x = factor(year), y = gradecalc2)) + 
   geom_bar(stat = "summary", fun = "mean")
-ggplot(calc3total, aes(x = factor(time), y = gradecalc2)) + 
+
+ggplot(all, aes(x = factor(year), y = screentime)) + 
   geom_bar(stat = "summary", fun = "mean")
-ggplot(calc3total, aes(x = factor(time), y = studyhours)) + 
+
+ggplot(all, aes(x=factor(year), y = mndegrees))+
   geom_bar(stat = "summary", fun = "mean")
-ggplot(calc3total, aes(x = factor(time), y = windows)) + 
+
+# Some for only post COVID
+ggplot(postCOVID, aes(x=factor(year), y = studyhours))+
+  geom_bar(stat = "summary", fun = "mean")
+
+ggplot(postCOVID, aes(x=factor(year), y = mndegrees))+
+  geom_bar(stat = "summary", fun = "mean")
+
+ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
   geom_bar(stat = "summary", fun = "mean")
 
 # Be sure to update everything into the drive
