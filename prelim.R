@@ -103,8 +103,11 @@ ggplot(postCOVID, aes(x=factor(year), y = mndegrees))+
 ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
   geom_bar(stat = "summary", fun = "mean")
 
-# Be sure to update everything into the drive
-# Unload all files into the drive so things there can run if you download anything.
-
 # t-test, anova, two population proportion test
 # moving towards understanding our analysis and making sense of what we are doing.
+
+
+library(openxlsx)
+write.xlsx(calc3total, "calc3.xlsx")
+write.xlsx(diffeqtotal, "diffeq.xlsx")
+
