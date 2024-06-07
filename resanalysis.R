@@ -29,4 +29,23 @@ ggpairs(calc3[c(17, 5:16, 18:22)])
 # gradediffeq is the response
 ggpairs(diffeq[c(15, 5:14, 16:20)])
 
+# Back+forward step model:
+back <- lm(gradecalc3 ~ ., data = na.omit(calc3[-c(1:4)]))
+summary(back)
+calc3model <- step(back, direction = "both", trace = 0)
+summary(calc3model)
+
+back <- lm(gradediffeq ~ ., data = na.omit(diffeq[-c(1:4)]))
+summary(back)
+diffeqmodel <- step(back, direction = "both", trace = 0)
+summary(diffeqmodel)
+
+# Recheck amount of students per dataset (is it enough)
+#18 x 5 for calc3 = 90
+nrow(na.omit(calc3))
+
+#16 x 5 for diffeq = 80 good
+nrow(na.omit(diffeq))
+
 # Residual analysis
+
