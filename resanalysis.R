@@ -24,9 +24,9 @@ ggpairs(aem)
 # gradecalc3 is the response
 #library(corrplot)
 #corrplot(cor(calc3[-c(1:5)]))
-ggpairs(calc3[-c(1:5)])
+ggpairs(calc3[c(17, 5:16, 18:22)])
 
 # gradediffeq is the response
-ggpairs(diffeq[-c(1:5)])
+ggpairs(diffeq[c(15, 5:14, 16:20)])
 
 # Residual analysis
