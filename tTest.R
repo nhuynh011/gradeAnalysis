@@ -26,4 +26,11 @@ diff3<- na.omit(diff3[-c(1:5, 18:19)])
 diff1<- diff1 |> mutate(section = 1)
 diff2<- diff2 |> mutate(section = 2)
 diff3<- diff3 |> mutate(section = 3)
+
 difftotal <- rbind(diff1, diff2, diff3)
+
+# Things I wanted to t-test
+# Screentime
+# Gradediffeq for diffeq only
+# Gradecalc2
+# Study hours for diff eq only
