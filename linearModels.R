@@ -1,5 +1,5 @@
 #BEGINNING ANALYSIS
-# Doing correlation graph and some residual analysis
+# Doing correlation graph and some linear models
 
 library(tidyverse)
 library(here)
@@ -153,6 +153,5 @@ ggplot(difftotal, aes(x = factor(section), y = gradediffeq)) +
   geom_bar(stat = "summary", fun = "mean") 
 
 #Check column significance
-sum(diffrm$noprereq)/nrow(diffrm)
-# Residual analysis
+
 
