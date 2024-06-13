@@ -69,7 +69,88 @@ summary(both)
 diffeqmodel <- step(both, direction = "both", trace = 0)
 summary(diffeqmodel)
 
-# Recheck amount of students per dataset (is it enough)
+
+###
+# Split DIFFEQ ANALYSIS
+# Make a different model for each of the semesters (applies to diffeq only)
+diff1 <- diffeq|> filter(year == 23)
+diff2 <- diffeq|> filter(time == "09:00:00")
+diff3 <- diffeq|> filter(time == "12:00:00", year == 24)
+
+# Remove na and correct columns
+diff1<- na.omit(diff1[-c(1:5, 18:19)])
+diff2<- na.omit(diff2[-c(1:5, 18:19)])
+diff3<- na.omit(diff3[-c(1:5, 18:19)])
+
+# Correlation plots
+ggpairs(diff1)
+ggpairs(diff2)
+ggpairs(diff3)
+
+#Diff1 Model:
+forward <- lm(gradediffeq ~ 1, data = diff1)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff1)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diff1)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diff1)
+summary(both)
+diffeqmodel <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel)
+
+#Diff2 Model:
+forward <- lm(gradediffeq ~ 1, data = diff2)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diff2)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diff2)
+summary(both)
+diffeqmodel <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel)
+
+#Diff3 Model:
+forward <- lm(gradediffeq ~ 1, data = diff3)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff3)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diff3)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diff3)
+summary(both)
+diffeqmodel <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel)
+
+# Recheck amount of students per dataset (is it enough) done
+
+#bar plots about cool stuff:
+diff1<- diff1 |> mutate(section = 1)
+diff2<- diff2 |> mutate(section = 2)
+diff3<- diff3 |> mutate(section = 3)
+difftotal <- rbind(diff1, diff2, diff3)
+
+ggplot(difftotal, aes(x = factor(section), y = iphone)) + 
+  geom_bar(stat = "summary", fun = "mean") 
+
+ggplot(difftotal, aes(x = factor(section), y = studyhours)) + 
+  geom_bar(stat = "summary", fun = "mean") 
+
+ggplot(difftotal, aes(x = factor(section), y = screentime)) + 
+  geom_bar(stat = "summary", fun = "mean") 
+
+ggplot(difftotal, aes(x = factor(section), y = gradecalc2)) + 
+  geom_bar(stat = "summary", fun = "mean") 
+
+ggplot(difftotal, aes(x = factor(section), y = gradediffeq)) + 
+  geom_bar(stat = "summary", fun = "mean") 
 
 #Check column significance
 sum(diffrm$noprereq)/nrow(diffrm)
