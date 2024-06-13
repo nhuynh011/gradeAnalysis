@@ -110,4 +110,4 @@ ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
 library(openxlsx)
 write.xlsx(calc3total, "calc3.xlsx")
 write.xlsx(diffeqtotal, "diffeq.xlsx")
-
+write.xlsx(all, "all.xlsx")
