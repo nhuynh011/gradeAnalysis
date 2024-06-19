@@ -152,6 +152,101 @@ ggplot(difftotal, aes(x = factor(section), y = gradecalc2)) +
 ggplot(difftotal, aes(x = factor(section), y = gradediffeq)) + 
   geom_bar(stat = "summary", fun = "mean") 
 
-#Check column significance
+################################################################################
+# DIFFEQ
+# Redo lin model without outliers?
+# factors to consider for outliers:
+
+# screentime
+Q <- quantile(diffrm$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffrm$screentime, na.rm = TRUE)
+diffrm <- subset(diffrm, diffrm$screentime > (Q[1] - 1.5*iqr) & diffrm$screentime < (Q[2]+1.5*iqr)) #save over original
+# Original was 0 to 18
+
+# minor degrees
+#nothing to remove for diffeq here
+Q <- quantile(diffrm$mndegrees, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffrm$mndegrees, na.rm = TRUE)
+diffrm <- subset(diffrm, diffrm$mndegrees > (Q[1] - 1.5*iqr) & diffrm$mndegrees < (Q[2]+1.5*iqr)) #save over original
+
+# study hours
+Q <- quantile(diffrm$studyhours, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffrm$studyhours, na.rm = TRUE)
+diffspecial <- subset(diffrm, diffrm$studyhours > (Q[1] - 1.5*iqr) & diffrm$studyhours < (Q[2]+1.5*iqr)) #save new
+#original is 3 to 10 hours
+
+# grade calc 2? doesn't make sense to remove this
+nrow(diffrm) #-11 outliers from screentime (range is 2 to 8 hours)
+             #-20 from study hours (range is 1 to 4)
+             #I don't feel that it's fair to remove people with big study hours so I may save a diff version over
+
+# Do all 3 models to compare:
+#Diffeq model no funny study hours
+forward <- lm(gradediffeq ~ 1, data = diffrm)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diffrm)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diffrm)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diffrm)
+# summary(both)
+diffeqmodel <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel)
 
 
+#Diffeq model removed study hours
+forward <- lm(gradediffeq ~ 1, data = diffspecial)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diffspecial)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diffspecial)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diffspecial)
+# summary(both)
+diffeqmodel <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel)
+
+################################################################################
+# CALC3
+# Redo lin model without outliers?
+# factors to consider for outliers:
+
+# screentime
+Q <- quantile(calcrm$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(calcrm$screentime, na.rm = TRUE)
+calcrm <- subset(calcrm, calcrm$screentime > (Q[1] - 1.5*iqr) & calcrm$screentime < (Q[2]+1.5*iqr)) #save over original
+#63 rows, 2 hours to 10 hours yikes...
+#original was 2 to 21
+
+# minor degrees
+# None removed here
+Q <- quantile(calcrm$mndegrees, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(calcrm$mndegrees, na.rm = TRUE)
+calcrm <- subset(calcrm, calcrm$mndegrees > (Q[1] - 1.5*iqr) & calcrm$mndegrees < (Q[2]+1.5*iqr)) #save over original
+
+
+# study hours
+Q <- quantile(calcrm$studyhours, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(calcrm$studyhours, na.rm = TRUE)
+calcrm <- subset(calcrm, calcrm$studyhours > (Q[1] - 1.5*iqr) & calcrm$studyhours < (Q[2]+1.5*iqr)) #save 
+nrow(calcrm) #removed 2, range is 0 to 9 hours
+# original was 0 to 15
+
+# Do all 3 models to compare:
+#Calc3 model
+forward <- lm(gradecalc3 ~ 1, data = calcrm)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradecalc3 ~ ., data = calcrm)))
+summary(forward)
+
+back <- lm(gradecalc3 ~ ., data = calcrm)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradecalc3 ~ ., data = calcrm)
+# summary(both)
+calcmodel <- step(both, direction = "both", trace = 0)
+summary(calcmodel)
