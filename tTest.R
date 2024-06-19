@@ -59,8 +59,33 @@ aemCalc <- subset(aemCalc3, aemCalc3$screentime > (Q[1] - 1.5*iqr) & aemCalc3$sc
 t.test(screentime ~ as.factor(year), data = aemCalc)
 
 # 2022 to 2023
+diffcalc1 <- all|>filter(year == 22 | year == 23) 
+Q <- quantile(diffcalc1$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffcalc1$screentime, na.rm = TRUE)
+diffcalc <- subset(diffcalc1, diffcalc1$screentime > (Q[1] - 1.5*iqr) & diffcalc1$screentime < (Q[2]+1.5*iqr))
+t.test(screentime ~ as.factor(year), data = diffcalc)
+
 # 2023 to 2024
+diffcalc2 <- all|>filter(year == 24 | year == 23) 
+Q <- quantile(diffcalc2$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffcalc2$screentime, na.rm = TRUE)
+diffcalc <- subset(diffcalc2, diffcalc2$screentime > (Q[1] - 1.5*iqr) & diffcalc2$screentime < (Q[2]+1.5*iqr))
+t.test(screentime ~ as.factor(year), data = diffcalc)
+
 # 2022 to 2024
+diffcalc3 <- all|>filter(year == 22 | year == 24) 
+Q <- quantile(diffcalc3$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffcalc3$screentime, na.rm = TRUE)
+diffcalc <- subset(diffcalc3, diffcalc3$screentime > (Q[1] - 1.5*iqr) & diffcalc3$screentime < (Q[2]+1.5*iqr))
+t.test(screentime ~ as.factor(year), data = diffcalc)
+
+# One sample t-test for the newfound avg screentime for teens being 4.8 hours: https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx?utm_source=chartr&utm_medium=email&utm_campaign=chartr_20240617
+# 2023 vs 2023 avg:
+y23 <- all|>filter(year ==23)
+Q <- quantile(y23$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(y23$screentime, na.rm = TRUE)
+y23 <- subset(y23, y23$screentime > (Q[1] - 1.5*iqr) & y23$screentime < (Q[2]+1.5*iqr))
+t.test(y23$screentime, mu = 4.8) #interesting!
 
 # Gradecalc2
 plot(gradecalc2 ~ as.factor(year), data=all)
