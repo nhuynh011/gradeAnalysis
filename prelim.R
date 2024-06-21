@@ -106,7 +106,7 @@ ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
 # t-test, anova, two population proportion test
 # moving towards understanding our analysis and making sense of what we are doing.
 
-
+# Export needed files
 library(openxlsx)
 write.xlsx(calc3total, "calc3.xlsx")
 write.xlsx(diffeqtotal, "diffeq.xlsx")
