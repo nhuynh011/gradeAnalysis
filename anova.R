@@ -10,6 +10,8 @@ library(yarrr)
 poll<- read.csv("poll2023.csv")
 all <- read_xlsx(here("all.xlsx"))
 
+all$year <- as.factor(all$year)
+
 ###############################################################################
 ### 2018 vs 2022, 2023, 2024
 
@@ -78,3 +80,8 @@ anova(lm2)
 #No diff here
 
 ### HSD after?
+library(multcomp)
+hsd <- glht(lm, linfct = mcp(year = "Tukey"))
+confint(hsd)
+old.par <- par(mai = c(1,2,1,1)) #Makes room on the plot for the group names
+plot(hsd)
