@@ -1,5 +1,5 @@
-# Bare script for file cleaning. Will be put into function format another time. 
-#Need to setwd (do later)
+### Cleaning file
+# Only cleans 1 file at a time
 
 # PRE-CLEANING
 #Load libraries for cleaning:
@@ -109,12 +109,12 @@ for (x in 2:18) {
   df[x] <- as.numeric(unlist(df[x]))
 }
 
-# Format some things by hand after
+# Format some things by hand after (study hours, most students answered with a sentence instead of a number)
 
-# Write out as an xlsx file??
+# Write out as an xlsx file
+# Change the output name depending on the file. 
 library(openxlsx)
 write.xlsx(df, "MA231 ONE PM FALL 2022.xlsx")
 
-# Then turn this into a function(?)
 
 

@@ -38,7 +38,7 @@ s <- s|> mutate(year = 23,
                 time = times(paste0(12, ":00", ":00")),
                 coursecode = 232) 
 
-# Re-arrange everything
+# Move newly added columns to the front
 c1 <- c1|>relocate(c("year", "semester", "time", "coursecode"))
 c2 <- c2|>relocate(c("year", "semester", "time", "coursecode"))
 d1 <- d1|>relocate(c("year", "semester", "time", "coursecode"))
@@ -50,18 +50,19 @@ calc3total <- rbind(c1, c2)
 diffeqtotal <- rbind(d1, d2, s)
 diffeqdf <- rbind(d1, d2)
 
-# Move stuff around
+# Moved columns around so dataset matches
 calc3total <- calc3total|>relocate("gradecalc2", .after = "noprereq")
 diffeqtotal <- diffeqtotal|>relocate("gradecalc2", .after = "noprereq")
 
-# bind all
+# Bind all recent survey data
 cols3 <- colnames(select(calc3total, -c("gradediffeq", "diffeq", "noprereq", "gradecalc3")))
 postCOVID <- rbind(
   subset(calc3total, select = cols3), 
   subset(diffeqtotal, select = cols3)
 )
 
-# Meta analysis of past data, load data
+# We want to do meta analysis of past data
+# Load data
 preCOVID <- read_xlsx("datafor_r.xlsx")
 
 # Clean
@@ -80,6 +81,7 @@ all <- rbind(
   subset(postCOVID, select = common)
 )
 
+### GRAPHS
 # Now do some general graphs throughout covid
 ggplot(all, aes(x = factor(year), y = iphone)) + 
   geom_bar(stat = "summary", fun = "mean") 
@@ -102,9 +104,6 @@ ggplot(postCOVID, aes(x=factor(year), y = mndegrees))+
 
 ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
   geom_bar(stat = "summary", fun = "mean")
-
-# t-test, anova, two population proportion test
-# moving towards understanding our analysis and making sense of what we are doing.
 
 # Export needed files
 library(openxlsx)

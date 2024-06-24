@@ -21,7 +21,6 @@ all$year <- as.factor(all$year)
 # Normality
 pirateplot(screentime ~ year, data = all, inf.method = "ci", inf.disp = "line")
 abline(h = mean(all$screentime), lwd = 2, col = "green", lty = 2) # Adds overall mean to plot
-#So I think this is showing signs of lot of outliers on the upper side. Should I eliminate by year or by range? Or just overall??
 
 # Remove outliers
 Q <- quantile(all$screentime, probs=c(.25, .75), na.rm = TRUE)
@@ -30,7 +29,7 @@ allrm <- subset(all, all$screentime > (Q[1] - 1.5*iqr) & all$screentime < (Q[2]+
 
 pirateplot(screentime ~ year, data = allrm, inf.method = "ci", inf.disp = "line")
 abline(h = mean(allrm$screentime), lwd = 2, col = "green", lty = 2)
-# I think the cutoff for this is pretty reasonable.
+
 
 # Check residuals (do the residuals have to be normal too?):
 par(mfrow = c(2, 2)); plot(lm(screentime ~ year, data = allrm))
@@ -42,13 +41,9 @@ allrm[63, ]
 # Equal variance in all groups **
 favstats(screentime ~ year, data = all)
 
-# Screentime continuous (kinda is)
-
 #LM for ANOVA:
 lm <- lm(screentime ~ year, data = allrm)
 anova(lm)
-
-# Yes significance, there is a screentime mean that is different
 
 ### 2022, 2023, 2024
 # To show that post-COVID-19 screentime was different from pre-COVID-19, I want to show that post-COVID-19 screentime has relatively the same mean
@@ -62,24 +57,20 @@ post<- allrm|> filter(year != 18)
 # Normality
 pirateplot(screentime ~ year, data = postrm, inf.method = "ci", inf.disp = "line")
 abline(h = mean(postrm$screentime), lwd = 2, col = "green", lty = 2)
-# Reasonable for now.
 
 # Check residuals (do the residuals have to be normal too?):
 par(mfrow = c(2, 2)); plot(lm(screentime ~ year, data = postrm))
-# I think there is an issue here...
 
 # Sample independence (all good)
 # Equal variance in all groups **
 favstats(screentime ~ year, data = postrm)
-
-# Screentime continuous
 
 #LM for ANOVA:
 lm2 <- lm(screentime ~ year, data = postrm)
 anova(lm2)
 #No diff here
 
-### HSD after?
+### HSD 
 library(multcomp)
 hsd <- glht(lm, linfct = mcp(year = "Tukey"))
 confint(hsd)
