@@ -30,11 +30,10 @@ diff3<- diff3 |> mutate(section = 3)
 difftotal <- rbind(diff1, diff2, diff3)
 
 ################################################################################
-# Things I wanted to t-test
-#### Screentime
+### Screentime
 plot(screentime ~ as.factor(year), data=all)
 
-# 2018 to 2022, ask if I should do with more
+# 2018 to 2022
 aemCalc1 <- all|>filter(year == 18 | year == 22) 
 
 #Remove outliers:
@@ -150,11 +149,11 @@ iqr <- IQR(diff23$gradediffeq, na.rm = TRUE)
 Diff <- subset(diff23, diff23$gradediffeq > (Q[1] - 1.5*iqr) & diff23$gradediffeq < (Q[2]+1.5*iqr))
 t.test(gradediffeq ~ as.factor(section), data = Diff)
 
-# Study hours for diff eq only?? There is study hours for calc3 also, so we can do a year to year
+# Study hours 
 calc3 <- read_xlsx(here("calc3.xlsx"))
 calc3 <- calc3[, !names(calc3) %in% "noprereq"]
 
-#Bind with diffeq
+# Bind with diffeq
 cols3 <- colnames(select(calc3total, -c("gradediffeq", "diffeq", "noprereq", "gradecalc3")))
 postCOVID <- rbind(
   subset(calc3total, select = cols3), 
