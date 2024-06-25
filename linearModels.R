@@ -100,7 +100,7 @@ diffeqmodel <- step(both, direction = "both", trace = 0)
 summary(diffeqmodel)
 
 ### CALC3
-# Rlm without outliers
+# Lm without outliers
 # factors to consider for outliers:
 
 # screentime
@@ -120,12 +120,18 @@ calcrm <- subset(calcrm, calcrm$mndegrees > (Q[1] - 1.5*iqr) & calcrm$mndegrees 
 # study hours
 Q <- quantile(calcrm$studyhours, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(calcrm$studyhours, na.rm = TRUE)
-calcrm <- subset(calcrm, calcrm$studyhours > (Q[1] - 1.5*iqr) & calcrm$studyhours < (Q[2]+1.5*iqr)) #save 
+calcrm <- subset(calcrm, calcrm$studyhours > (Q[1] - 1.5*iqr) & calcrm$studyhours < (Q[2]+1.5*iqr)) #save
 nrow(calcrm) #removed 2, range is 0 to 9 hours
 # original was 0 to 15
 
-# Do all 3 models to compare:
-#Calc3 model
+# Do models to compare:
+#aem model (2018)
+aem <- na.omit(aem[-c(6, 9, 13:16)])
+forward <- lm(AEM ~ 1, data = aem)
+aemmodel2018 <- step(forward, direction = "forward", scope = formula(lm(AEM ~ ., data = aem)))
+summary(aemmodel2018)
+
+#Calc3 model (2022)
 forward <- lm(gradecalc3 ~ 1, data = calcrm)
 forward <- step(forward, direction = "forward", scope = formula(lm(gradecalc3 ~ ., data = calcrm)))
 summary(forward)
@@ -138,6 +144,47 @@ both <- lm(gradecalc3 ~ ., data = calcrm)
 # summary(both)
 calc3model22 <- step(both, direction = "both", trace = 0)
 summary(calc3model22)
+
+### Diffeq model by years:
+#2023, decided not to remove outliers
+diff2023 <- diffeq |> filter(year == "23") #50 rows
+diff2023 <- na.omit(diff2023[-c(1:5, 18:19)])
+
+### Linear model
+forward <- lm(gradediffeq ~ 1, data = diff2023)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2023)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diff2023)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diff2023)
+summary(both)
+diffeqmodel23 <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel23)
+
+# 2024, removed outliers
+diff2024 <- diffeq |> filter(year == "24")
+diff2024 <- na.omit(diff2024[-c(1:5, 18:19)])
+
+# Remove screentime outliers:
+Q <- quantile(diff2024$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diff2024$screentime, na.rm = TRUE)
+diff2024 <- subset(diff2024, diff2024$screentime > (Q[1] - 1.5*iqr) & diff2024$screentime < (Q[2]+1.5*iqr)) #save over original
+
+forward <- lm(gradediffeq ~ 1, data = diff2024)
+forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2024)))
+summary(forward)
+
+back <- lm(gradediffeq ~ ., data = diff2024)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradediffeq ~ ., data = diff2024)
+summary(both)
+diffeqmodel24 <- step(both, direction = "both", trace = 0)
+summary(diffeqmodel24)
 
 ###
 # Split DIFFEQ ANALYSIS
@@ -198,62 +245,23 @@ summary(both)
 diffeqmodel <- step(both, direction = "both", trace = 0)
 summary(diffeqmodel)
 
-### Diffeq model by years:
-#2023, decided not to remove outliers
-diff2023 <- diffeq |> filter(year == "23") #50 rows
-
-### Linear model
-forward <- lm(gradediffeq ~ 1, data = diff2023)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2023)))
-summary(forward)
-
-back <- lm(gradediffeq ~ ., data = diff2023)
-backlm <- step(back, direction = "backward", trace = 0)
-summary(backlm)
-
-both <- lm(gradediffeq ~ ., data = diff2023)
-summary(both)
-diffeqmodel23 <- step(both, direction = "both", trace = 0)
-summary(diffeqmodel23)
-
-# 2024, removed outliers
-diff2024 <- diffeq |> filter(year = "24")
-
-# Remove screentime outliers:
-Q <- quantile(diff2024$screentime, probs=c(.25, .75), na.rm = TRUE)
-iqr <- IQR(diff2024$screentime, na.rm = TRUE)
-diff2024 <- subset(diff2024, diff2024$screentime > (Q[1] - 1.5*iqr) & diff2024$screentime < (Q[2]+1.5*iqr)) #save over original
-
-forward <- lm(gradediffeq ~ 1, data = diff2024)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2024)))
-summary(forward)
-
-back <- lm(gradediffeq ~ ., data = diff2024)
-backlm <- step(back, direction = "backward", trace = 0)
-summary(backlm)
-
-both <- lm(gradediffeq ~ ., data = diff2024)
-summary(both)
-diffeqmodel24 <- step(both, direction = "both", trace = 0)
-summary(diffeqmodel24)
-
-#bar plots about the difference between diffeq sections:
+#Bar plots about the difference between diffeq sections:
 diff1<- diff1 |> mutate(section = 1)
 diff2<- diff2 |> mutate(section = 2)
 diff3<- diff3 |> mutate(section = 3)
 difftotal <- rbind(diff1, diff2, diff3)
 
-ggplot(difftotal, aes(x = factor(section), y = iphone)) + 
-  geom_bar(stat = "summary", fun = "mean") 
+ggplot(difftotal, aes(x = factor(section), y = iphone)) +
+  geom_bar(stat = "summary", fun = "mean")
 
-ggplot(difftotal, aes(x = factor(section), y = studyhours)) + 
-  geom_bar(stat = "summary", fun = "mean") 
+ggplot(difftotal, aes(x = factor(section), y = studyhours)) +
+  geom_bar(stat = "summary", fun = "mean")
 
-ggplot(difftotal, aes(x = factor(section), y = screentime)) + 
-  geom_bar(stat = "summary", fun = "mean") 
+ggplot(difftotal, aes(x = factor(section), y = screentime)) +
+  geom_bar(stat = "summary", fun = "mean")
 
-ggplot(difftotal, aes(x = factor(section), y = gradecalc2)) + 
-  geom_bar(stat = "summary", fun = "mean") 
+ggplot(difftotal, aes(x = factor(section), y = gradecalc2)) +
+  geom_bar(stat = "summary", fun = "mean")
 
-ggplot(difftotal, aes(x = factor(section), y = gradediffeq)) + 
+ggplot(difftotal, aes(x = factor(section), y = gradediffeq)) +
   geom_bar(stat = "summary", fun = "mean") 
