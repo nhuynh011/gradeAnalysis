@@ -83,26 +83,33 @@ all <- rbind(
 ### GRAPHS
 # Now do some general graphs throughout covid
 ggplot(all, aes(x = factor(year), y = iphone)) + 
-  geom_bar(stat = "summary", fun = "mean") 
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(all, aes(x = factor(year), y = gradecalc2)) + 
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(all, aes(x = factor(year), y = screentime)) + 
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(all, aes(x=factor(year), y = mndegrees))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 # Some for only post COVID
 ggplot(postCOVID, aes(x=factor(year), y = studyhours))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(postCOVID, aes(x=factor(year), y = mndegrees))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 # Export needed files
 library(openxlsx)
