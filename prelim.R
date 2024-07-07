@@ -55,7 +55,7 @@ calc3total <- calc3total|>relocate("gradecalc2", .after = "noprereq")
 diffeqtotal <- diffeqtotal|>relocate("gradecalc2", .after = "noprereq")
 
 # Bind all recent survey data
-cols3 <- colnames(select(calc3total, -c("gradediffeq", "diffeq", "noprereq", "gradecalc3")))
+cols3 <- colnames(dplyr::select(calc3total, -c("gradediffeq", "diffeq", "noprereq", "gradecalc3")))
 postCOVID <- rbind(
   subset(calc3total, select = cols3), 
   subset(diffeqtotal, select = cols3)
@@ -75,7 +75,7 @@ preCOVID <- preCOVID|>relocate(c("year", "semester", "time", "coursecode"))
 preCOVID <- preCOVID|>relocate("mndegrees", .after = "iphone")
 
 # rbind all together by common columns
-common <- colnames(select(postCOVID, c("year", "semester", "time", "coursecode", "iphone", "mndegrees", "gradecalc2", "screentime")))
+common <- colnames(dplyr::select(postCOVID, c("year", "semester", "time", "coursecode", "iphone", "mndegrees", "gradecalc2", "screentime")))
 all <- rbind(
   subset(preCOVID, select = common), 
   subset(postCOVID, select = common)
@@ -84,26 +84,33 @@ all <- rbind(
 ### GRAPHS
 # Now do some general graphs throughout covid
 ggplot(all, aes(x = factor(year), y = iphone)) + 
-  geom_bar(stat = "summary", fun = "mean") 
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(all, aes(x = factor(year), y = gradecalc2)) + 
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(all, aes(x = factor(year), y = screentime)) + 
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + theme_bw() + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(all, aes(x=factor(year), y = mndegrees))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 # Some for only post COVID
 ggplot(postCOVID, aes(x=factor(year), y = studyhours))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(postCOVID, aes(x=factor(year), y = mndegrees))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
-  geom_bar(stat = "summary", fun = "mean")
+  geom_bar(stat = "summary", fun = "mean") + 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 # Export needed files
 library(openxlsx)
