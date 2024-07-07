@@ -52,7 +52,7 @@ anova(lm)
 # HA: There is at least 1 year that has a different mean for screentime compared to the others
 
 # Filter out 2018
-post<- allrm|> filter(year != 18)
+postrm<- allrm|> filter(year != 18)
 
 # Normality
 pirateplot(screentime ~ year, data = postrm, inf.method = "ci", inf.disp = "line")
@@ -76,3 +76,4 @@ hsd <- glht(lm, linfct = mcp(year = "Tukey"))
 confint(hsd)
 old.par <- par(mai = c(1,2,1,1)) #Makes room on the plot for the group names
 plot(hsd)
+

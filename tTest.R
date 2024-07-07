@@ -23,19 +23,19 @@ diff2<- na.omit(diff2[-c(1:5, 18:19)])
 diff3<- na.omit(diff3[-c(1:5, 18:19)])
 
 # Add more information for diffeq
-diff1<- diff1 |> mutate(section = 1)
-diff2<- diff2 |> mutate(section = 2)
-diff3<- diff3 |> mutate(section = 3)
+diff1<- diff1 |> mutate(section = "12PM Spring 2023")
+diff2<- diff2 |> mutate(section = "9AM Spring 2024")
+diff3<- diff3 |> mutate(section = "12PM Spring 2024")
 
 difftotal <- rbind(diff1, diff2, diff3)
 
 ################################################################################
 ### Screentime
+### Want to see if there is a difference between the years in screentime. Comparing all year combos
 plot(screentime ~ as.factor(year), data=all)
 
 # 2018 to 2022
 aemCalc1 <- all|>filter(year == 18 | year == 22) 
-
 #Remove outliers:
 library(ggstatsplot)
 Q <- quantile(aemCalc1$screentime, probs=c(.25, .75), na.rm = TRUE)
@@ -87,6 +87,7 @@ y23 <- subset(y23, y23$screentime > (Q[1] - 1.5*iqr) & y23$screentime < (Q[2]+1.
 t.test(y23$screentime, mu = 4.8) #interesting!
 
 # Gradecalc2
+# Comparing gradecalc2 for some years only. Wanted to show a difference from pre-COVID to post-COVID
 plot(gradecalc2 ~ as.factor(year), data=all)
 
 # 2018 to 2022
@@ -95,9 +96,11 @@ iqr <- IQR(aemCalc1$gradecalc2, na.rm = TRUE)
 aemCalc <- subset(aemCalc1, aemCalc1$gradecalc2 > (Q[1] - 1.5*iqr) & aemCalc1$gradecalc2 < (Q[2]+1.5*iqr))
 t.test(gradecalc2 ~ as.factor(year), data = aemCalc)
 
+# Found no difference, so I won't test more from 2018 to 2023-2024
 # 2018 to 2023
 # 2018 to 2024
 
+# Any difference between the years?
 # 2022 to 2023
 CalcDiff1 <- all|>filter(year == 22 | year == 23) 
 Q <- quantile(CalcDiff1$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
@@ -119,7 +122,7 @@ iqr <- IQR(CalcDiff3$gradecalc2, na.rm = TRUE)
 CalcDiff <- subset(CalcDiff3, CalcDiff3$gradecalc2 > (Q[1] - 1.5*iqr) & CalcDiff3$gradecalc2 < (Q[2]+1.5*iqr))
 t.test(gradecalc2 ~ as.factor(year), data = CalcDiff)
 
-# Gradediffeq for diffeq only
+# Gradediffeq for diffeq only, calc3 survey didn't ask this.
 plot(gradediffeq ~ as.factor(year), data=diffeqtotal)
 
 # 2023 to 2024 (both section)
@@ -129,27 +132,28 @@ Diff <- subset(diffeqtotal, diffeqtotal$gradediffeq > (Q[1] - 1.5*iqr) & diffeqt
 t.test(gradediffeq ~ as.factor(year), data = Diff)
 
 # 2023 section 1 to 2024 section 2 at 9am
-diff12 <- difftotal|>filter(section ==1 | section ==2)
+diff12 <- difftotal|>filter(section == "12PM Spring 2023" | section == "9AM Spring 2024")
 Q <- quantile(diff12$gradediffeq, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(diff12$gradediffeq, na.rm = TRUE)
 Diff <- subset(diff12, diff12$gradediffeq > (Q[1] - 1.5*iqr) & diff12$gradediffeq < (Q[2]+1.5*iqr))
 t.test(gradediffeq ~ as.factor(section), data = Diff)
 
 # 2023 section 1 to 2024 section 3 at 12PM
-diff13 <- difftotal|>filter(section ==1 | section ==3)
+diff13 <- difftotal|>filter(section == "12PM Spring 2023" | section == "12PM Spring 2024")
 Q <- quantile(diff13$gradediffeq, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(diff13$gradediffeq, na.rm = TRUE)
 Diff <- subset(diff13, diff13$gradediffeq > (Q[1] - 1.5*iqr) & diff13$gradediffeq < (Q[2]+1.5*iqr))
 t.test(gradediffeq ~ as.factor(section), data = Diff)
 
 # 2024 sections
-diff23 <- difftotal|>filter(section ==3 | section ==2)
+diff23 <- difftotal|>filter(section == "9AM Spring 2023" | section == "12PM Spring 2024")
 Q <- quantile(diff23$gradediffeq, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(diff23$gradediffeq, na.rm = TRUE)
 Diff <- subset(diff23, diff23$gradediffeq > (Q[1] - 1.5*iqr) & diff23$gradediffeq < (Q[2]+1.5*iqr))
 t.test(gradediffeq ~ as.factor(section), data = Diff)
 
-# Study hours 
+# Study hours
+# Testing for difference in study hours. Observed in the bar charts earlier in prelim.R
 calc3 <- read_xlsx(here("calc3.xlsx"))
 calc3 <- calc3[, !names(calc3) %in% "noprereq"]
 

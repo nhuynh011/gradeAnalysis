@@ -244,24 +244,3 @@ both <- lm(gradediffeq ~ ., data = diff3)
 summary(both)
 diffeqmodel <- step(both, direction = "both", trace = 0)
 summary(diffeqmodel)
-
-#Bar plots about the difference between diffeq sections:
-diff1<- diff1 |> mutate(section = 1)
-diff2<- diff2 |> mutate(section = 2)
-diff3<- diff3 |> mutate(section = 3)
-difftotal <- rbind(diff1, diff2, diff3)
-
-ggplot(difftotal, aes(x = factor(section), y = iphone)) +
-  geom_bar(stat = "summary", fun = "mean")
-
-ggplot(difftotal, aes(x = factor(section), y = studyhours)) +
-  geom_bar(stat = "summary", fun = "mean")
-
-ggplot(difftotal, aes(x = factor(section), y = screentime)) +
-  geom_bar(stat = "summary", fun = "mean")
-
-ggplot(difftotal, aes(x = factor(section), y = gradecalc2)) +
-  geom_bar(stat = "summary", fun = "mean")
-
-ggplot(difftotal, aes(x = factor(section), y = gradediffeq)) +
-  geom_bar(stat = "summary", fun = "mean") 
