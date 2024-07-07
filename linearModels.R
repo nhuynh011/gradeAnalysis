@@ -1,4 +1,4 @@
-#BEGINNING ANALYSIS
+# BEGINNING ANALYSIS
 # Doing correlation graph and some linear models
 
 library(tidyverse)
