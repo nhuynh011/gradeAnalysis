@@ -228,8 +228,8 @@ ggpairs(diff3)
 
 # Diff1 Model (12PM Spring 2023):
 forward <- lm(gradediffeq ~ 1, data = diff1)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff1)))
-summary(forward)
+diffeq1model <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff1)))
+summary(diffeq1model)
 
 back <- lm(gradediffeq ~ ., data = diff1)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -237,8 +237,8 @@ summary(backlm)
 
 both <- lm(gradediffeq ~ ., data = diff1)
 summary(both)
-diffeq1model <- step(both, direction = "both", trace = 0)
-summary(diffeq1model)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
 # confirmed all models are the same
 
 # Diff1 model after removing both sets of outliers:
@@ -253,8 +253,8 @@ iqr <- IQR(diff1$screentime, na.rm = TRUE)
 diff1 <- subset(diff1, diff1$screentime > (Q[1] - 1.5*iqr) & diff1$screentime < (Q[2]+1.5*iqr)) #save over original
 
 forward <- lm(gradediffeq ~ 1, data = diff1)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff1)))
-summary(forward)
+diffeq1rmmodel <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff1)))
+summary(diffeq1rmmodel)
 
 back <- lm(gradediffeq ~ ., data = diff1)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -262,13 +262,13 @@ summary(backlm)
 
 both <- lm(gradediffeq ~ ., data = diff1)
 summary(both)
-diffeq1rmmodel <- step(both, direction = "both", trace = 0)
-summary(diffeq1rmmodel)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
 
 # Diff2 Model (9AM Spring 2024):
 forward <- lm(gradediffeq ~ 1, data = diff2)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2)))
-summary(forward)
+diffeq2model <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2)))
+summary(diffeq2model)
 
 back <- lm(gradediffeq ~ ., data = diff2)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -276,8 +276,8 @@ summary(backlm)
 
 both <- lm(gradediffeq ~ ., data = diff2)
 summary(both)
-diffeq2model <- step(both, direction = "both", trace = 0)
-summary(diffeq2model)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
 # all are the same
 
 # Diff2 model after removing both sets of outliers:
@@ -292,8 +292,8 @@ iqr <- IQR(diff2$screentime, na.rm = TRUE)
 diff2 <- subset(diff2, diff2$screentime > (Q[1] - 1.5*iqr) & diff2$screentime < (Q[2]+1.5*iqr)) #save over original
 
 forward <- lm(gradediffeq ~ 1, data = diff2)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2)))
-summary(forward)
+diffeq2rmmodel <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2)))
+summary(diffeq2rmmodel)
 
 back <- lm(gradediffeq ~ ., data = diff2)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -301,13 +301,13 @@ summary(backlm)
 
 both <- lm(gradediffeq ~ ., data = diff2)
 summary(both)
-diffeq2rmmodel <- step(both, direction = "both", trace = 0)
-summary(diffeq2rmmodel)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
 
 # Diff3 Model (12PM Spring 2024):
 forward <- lm(gradediffeq ~ 1, data = diff3)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff3)))
-summary(forward)
+diffeq3model <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff3)))
+summary(diffeq3model)
 
 back <- lm(gradediffeq ~ ., data = diff3)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -315,8 +315,8 @@ summary(backlm)
 
 both <- lm(gradediffeq ~ ., data = diff3)
 summary(both)
-diffeq3model <- step(both, direction = "both", trace = 0)
-summary(diffeq3model)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
 # all are the same
 
 # Diff3 model after removing both sets of outliers:
@@ -331,8 +331,8 @@ iqr <- IQR(diff3$screentime, na.rm = TRUE)
 diff3 <- subset(diff3, diff3$screentime > (Q[1] - 1.5*iqr) & diff3$screentime < (Q[2]+1.5*iqr)) #save over original
 
 forward <- lm(gradediffeq ~ 1, data = diff3)
-forward <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff3)))
-summary(forward)
+diffeq3rmmodel <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff3)))
+summary(diffeq3rmmodel)
 
 back <- lm(gradediffeq ~ ., data = diff3)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -340,5 +340,5 @@ summary(backlm)
 
 both <- lm(gradediffeq ~ ., data = diff3)
 summary(both)
-diffeq3rmmodel <- step(both, direction = "both", trace = 0)
-summary(diffeq3rmmodel)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
