@@ -96,9 +96,32 @@ iqr <- IQR(aemCalc1$gradecalc2, na.rm = TRUE)
 aemCalc <- subset(aemCalc1, aemCalc1$gradecalc2 > (Q[1] - 1.5*iqr) & aemCalc1$gradecalc2 < (Q[2]+1.5*iqr))
 t.test(gradecalc2 ~ as.factor(year), data = aemCalc)
 
-# Found no difference, so I won't test more from 2018 to 2023-2024
-# 2018 to 2023
+# Gradecalc2
+# Comparing gradecalc2 for some years only. Wanted to show a difference from pre-COVID to post-COVID
+plot(gradecalc2 ~ as.factor(year), data=all)
+
+# 2018 to 2022
+Q <- quantile(aemCalc1$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(aemCalc1$gradecalc2, na.rm = TRUE)
+aemCalc <- subset(aemCalc1, aemCalc1$gradecalc2 > (Q[1] - 1.5*iqr) & aemCalc1$gradecalc2 < (Q[2]+1.5*iqr))
+t.test(gradecalc2 ~ as.factor(year), data = aemCalc)
+
+# 2018 to 2023 ***
+aemCalc2 <- all|>filter(year == 18 | year == 23) 
+
+Q <- quantile(aemCalc2$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(aemCalc2$gradecalc2, na.rm = TRUE)
+aemCalc <- subset(aemCalc2, aemCalc2$gradecalc2 > (Q[1] - 1.5*iqr) & aemCalc2$gradecalc2 < (Q[2]+1.5*iqr))
+t.test(gradecalc2 ~ as.factor(year), data = aemCalc)
+
 # 2018 to 2024
+aemCalc3 <- all|>filter(year == 18 | year == 24) 
+
+Q <- quantile(aemCalc3$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(aemCalc3$gradecalc2, na.rm = TRUE)
+aemCalc <- subset(aemCalc3, aemCalc3$gradecalc2 > (Q[1] - 1.5*iqr) & aemCalc3$gradecalc2 < (Q[2]+1.5*iqr))
+t.test(gradecalc2 ~ as.factor(year), data = aemCalc)
+
 
 # Any difference between the years?
 # 2022 to 2023
