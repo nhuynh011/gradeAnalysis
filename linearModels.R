@@ -20,13 +20,37 @@ diffrm<- na.omit(diffeq[-c(1:5, 18:19)])
 
 ### Correlation coeff, warnings are na that haven't been removed yet
 library(GGally)
+
+#Want to remove outliers first for these:
+# screentime
+calciii<- as.data.frame(calc3) # There's an issue if I used calc3 as the name for outlier removal.
+Q <- quantile(calciii$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(calciii$screentime, na.rm = TRUE)
+calc1 <- subset(calciii, calciii$screentime > (Q[1] - 1.5*iqr) & calciii$screentime < (Q[2]+1.5*iqr)) #save over original
+
+# study hours
+Q <- quantile(calciii$studyhours, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(calciii$studyhours, na.rm = TRUE)
+calc1 <- subset(calciii, calciii$studyhours > (Q[1] - 1.5*iqr) & calciii$studyhours < (Q[2]+1.5*iqr)) #save
+
+# screentime
+diffeq<- as.data.frame(diffeq)
+Q <- quantile(diffeq$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffeq$screentime, na.rm = TRUE)
+diff <- subset(diffeq, diffeq$screentime > (Q[1] - 1.5*iqr) & diffeq$screentime < (Q[2]+1.5*iqr)) #save over original
+
+# study hours
+Q <- quantile(diffeq$studyhours, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(diffeq$studyhours, na.rm = TRUE)
+diff <- subset(diffeq, diffeq$studyhours > (Q[1] - 1.5*iqr) & diffeq$studyhours < (Q[2]+1.5*iqr)) #save
+
 # AEM is the response
 ggpairs(aem)
 
-ggpairs(calc3[c(17, 5:16, 18:21)])
+ggpairs(calc1[c(17, 5:16, 18:21)])
 
 # gradediffeq is the response
-ggpairs(diffeq[c(15, 5:14, 16:19)])
+ggpairs(diff[c(15, 5:14, 16:19)])
 
 ################################################################################
 ### Making the stepwise models (with outliers):
@@ -342,3 +366,4 @@ both <- lm(gradediffeq ~ ., data = diff3)
 summary(both)
 bothlm <- step(both, direction = "both", trace = 0)
 summary(bothlm)
+
