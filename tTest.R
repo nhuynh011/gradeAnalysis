@@ -32,7 +32,11 @@ diffeqtotal <- rbind(diff1, diff2, diff3)
 ################################################################################
 ### Screentime
 ### Want to see if there is a difference between the years in screentime. Comparing all year combos
-plot(screentime ~ as.factor(year), data=all)
+Q <- quantile(all$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(all$screentime, na.rm = TRUE)
+allrm<-subset(all, all$screentime > (Q[1] - 1.5*iqr) & all$screentime < (Q[2]+1.5*iqr))
+
+plot(screentime ~ as.factor(year), data=allrm)
 
 # 2018 to 2022
 aemCalc1 <- all|>filter(year == 18 | year == 22) 
@@ -98,7 +102,11 @@ t.test(gradecalc2 ~ as.factor(year), data = aemCalc)
 
 # Gradecalc2
 # Comparing gradecalc2 for some years only. Wanted to show a difference from pre-COVID to post-COVID
-plot(gradecalc2 ~ as.factor(year), data=all)
+Q <- quantile(all$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(all$gradecalc2, na.rm = TRUE)
+allrm1<-subset(all, all$gradecalc2 > (Q[1] - 1.5*iqr) & all$gradecalc2 < (Q[2]+1.5*iqr))
+
+plot(gradecalc2 ~ as.factor(year), data=allrm1)
 
 # 2018 to 2022
 Q <- quantile(aemCalc1$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
