@@ -70,6 +70,41 @@ lm2 <- lm(screentime ~ year, data = postrm)
 anova(lm2)
 #No diff here
 
+
+###############################################################################
+### 2018 vs 2022, 2023, 2024
+
+# H0 is that gradecalc2 hasn't changed after COVID-19 (mean of all year's screentime is the same)
+# HA: there is some sort of change in gradecalc2 after COVID-19
+
+# Normality
+pirateplot(gradecalc2 ~ year, data = all, inf.method = "ci", inf.disp = "line")
+abline(h = mean(all$gradecalc2), lwd = 2, col = "green", lty = 2) # Adds overall mean to plot
+
+# Remove outliers
+Q <- quantile(all$gradecalc2, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(all$gradecalc2, na.rm = TRUE)
+allrm1 <- subset(all, all$gradecalc2 > (Q[1] - 1.5*iqr) & all$gradecalc2 < (Q[2]+1.5*iqr))
+
+pirateplot(gradecalc2 ~ year, data = allrm1, inf.method = "ci", inf.disp = "line")
+abline(h = mean(allrm1$gradecalc2), lwd = 2, col = "green", lty = 2)
+
+
+# Check residuals (do the residuals have to be normal too?):
+par(mfrow = c(2, 2)); plot(lm(gradecalc2 ~ year, data = allrm1))
+postrm<- allrm1|> filter(year != 18)
+#BAD
+
+
+# Sample independence (all good)
+# Equal variance in all groups **
+favstats(gradecalc2 ~ year, data = allrm1)
+
+#LM for ANOVA:
+lmGrade <- lm(gradecalc2 ~ year, data = allrm1)
+anova(lmGrade)
+#Poor value
+
 ### HSD 
 library(multcomp)
 hsd <- glht(lm, linfct = mcp(year = "Tukey"))
