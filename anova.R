@@ -22,6 +22,7 @@ all$year <- as.factor(all$year)
 pirateplot(screentime ~ year, data = all, inf.method = "ci", inf.disp = "line")
 abline(h = mean(all$screentime), lwd = 2, col = "green", lty = 2) # Adds overall mean to plot
 
+
 # Remove outliers
 Q <- quantile(all$screentime, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(all$screentime, na.rm = TRUE)
@@ -30,9 +31,30 @@ allrm <- subset(all, all$screentime > (Q[1] - 1.5*iqr) & all$screentime < (Q[2]+
 pirateplot(screentime ~ year, data = allrm, inf.method = "ci", inf.disp = "line")
 abline(h = mean(allrm$screentime), lwd = 2, col = "green", lty = 2)
 
+# Visualize distribution
+library(ggpubr)
+ggdensity(allrm$screentime, 
+          main = "Density plot of screentime",
+          xlab = "Screentime")
+# QQ Plots
+ggqqplot(allrm$screentime)
+
+# Normality: Shapiro Wilk test, Kolmogorov Smirnov test, want small p val
+library(wakefield)
+normall <- normal(nrow(allrm), mean = mean(allrm$screentime), sd = sd(allrm$screentime), min = NULL, max = NULL, name = "Normal")
+shapiro.test(allrm$screentime)
+ks.test(all$screentime, normall)
+
+# Test for heterogeneity, Levene and Bartlett's test
+# Null is all population variances are equal
+# Else at least 2 of them differ (low p val)
+library(car)
+leveneTest(screentime ~ as.factor(year), allrm) #Fails this too
+bartlett.test(screentime~ as.factor(year), allrm) # passes this..?
 
 # Check residuals (do the residuals have to be normal too?):
 par(mfrow = c(2, 2)); plot(lm(screentime ~ year, data = allrm))
+
 #There's a pattern here, makes it look like Chi Sq dist. (right tail doesn't go to 0 completely)
 #Also some pretty influential points (but I don't want to remove them), maybe remove point 63?
 allrm[63, ]
