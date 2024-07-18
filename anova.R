@@ -59,10 +59,11 @@ par(mfrow = c(2, 2)); plot(lm(screentime ~ year, data = allrm))
 #Also some pretty influential points (but I don't want to remove them), maybe remove point 63?
 allrm[63, ]
 
-# Sample independence (all good)
-# Equal variance in all groups **
-favstats(screentime ~ year, data = all)
-
+# Perm ANOVA:
+library(lmPerm)
+allrm$year <- as.factor(allrm$year)
+plm <- lmp(screentime ~ year, allrm,  perm="Exact")
+anova(plm)
 #LM for ANOVA:
 lm <- lm(screentime ~ year, data = allrm)
 anova(lm)
