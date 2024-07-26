@@ -32,6 +32,7 @@ calc1 <- subset(calciii, calciii$screentime > (Q[1] - 1.5*iqr) & calciii$screent
 Q <- quantile(calciii$studyhours, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(calciii$studyhours, na.rm = TRUE)
 calc1 <- subset(calciii, calciii$studyhours > (Q[1] - 1.5*iqr) & calciii$studyhours < (Q[2]+1.5*iqr)) #save
+calc1<- calc1 |> relocate(gradecalc3)
 
 # screentime
 diffeq<- as.data.frame(diffeq)
@@ -44,13 +45,15 @@ Q <- quantile(diffeq$studyhours, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(diffeq$studyhours, na.rm = TRUE)
 diff <- subset(diffeq, diffeq$studyhours > (Q[1] - 1.5*iqr) & diffeq$studyhours < (Q[2]+1.5*iqr)) #save
 
+diff<- diff |> relocate(gradediffeq)
+
 # AEM is the response
 ggpairs(aem)
 
-ggpairs(calc1[c(17, 5:16, 18:21)])
+ggpairs(calc1[c(1, 7:19)])
 
 # gradediffeq is the response
-ggpairs(diff[c(15, 5:14, 16:19)])
+ggpairs(diff[c(1, 7:15)])
 
 ################################################################################
 ### Making the stepwise models (with outliers):
