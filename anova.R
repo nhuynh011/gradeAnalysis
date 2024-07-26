@@ -68,6 +68,9 @@ anova(plm)
 lm <- lm(screentime ~ year, data = allrm)
 anova(lm)
 
+# Kruskal Wallis test:
+kruskal.test(screentime ~ year, data = allrm)
+
 ### 2022, 2023, 2024
 # To show that post-COVID-19 screentime was different from pre-COVID-19, I want to show that post-COVID-19 screentime has relatively the same mean
 
@@ -91,6 +94,9 @@ favstats(screentime ~ year, data = postrm)
 #LM for ANOVA:
 lm2 <- lm(screentime ~ year, data = postrm)
 anova(lm2)
+
+# Kruskal Wallis test:
+kruskal.test(screentime ~ year, data = postrm)
 #No diff here
 
 
