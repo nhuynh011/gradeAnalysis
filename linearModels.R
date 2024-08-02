@@ -53,7 +53,22 @@ ggpairs(aem)
 ggpairs(calc1[c(1, 7:19)])
 
 # gradediffeq is the response
-ggpairs(diff[c(1, 7:15)])
+ggpairs(diff[c(1, 7:17)])
+
+################################################################################
+# Stats for each column
+calc1 <- na.omit(calc1)
+cmean <- apply(calc1[c(1, 7:19)], 2, mean)
+cdev <- apply(calc1[c(1, 7:19)], 2, sd)
+cmin <- apply(calc1[c(1, 7:19)], 2, min)
+cmax <- apply(calc1[c(1, 7:19)], 2, max)
+
+diff <- na.omit(diff)
+dmean <- apply(diff[c(1, 7:17)], 2, mean)
+ddev <- apply(diff[c(1, 7:17)], 2, sd)
+dmin <- apply(diff[c(1, 7:17)], 2, min)
+dmax <- apply(diff[c(1, 7:17)], 2, max)
+
 
 ################################################################################
 ### Making the stepwise models (with outliers):
