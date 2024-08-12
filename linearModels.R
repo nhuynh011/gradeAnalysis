@@ -86,6 +86,7 @@ summary(both)
 bothlm <- step(both, direction = "both", trace = 0)
 summary(bothlm)
 # confirmed that all 3 models are the same
+confint(calc3model)
 
 ###
 # DiffEq
@@ -102,6 +103,9 @@ summary(both)
 bothlm <- step(both, direction = "both", trace = 0)
 summary(bothlm)
 # confirmed that all 3 models are the same
+confint(diffeqmodel)
+
+
 
 ################################################################################
 ### MAKING THE STEPWISE MODEL AFTER REMOVING OUTLIERS
@@ -126,6 +130,7 @@ nrow(diffrm) #-11 outliers from screentime (range is 2 to 8 hours)
 forward <- lm(gradediffeq ~ 1, data = diffrm)
 diffeqrmmodel <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diffrm)))
 summary(diffeqrmmodel)
+confint(diffeqrmmodel)
 
 back <- lm(gradediffeq ~ ., data = diffrm)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -156,6 +161,7 @@ nrow(calcrm)
 forward <- lm(gradecalc3 ~ 1, data = calcrm)
 calc3model2022 <- step(forward, direction = "forward", scope = formula(lm(gradecalc3 ~ ., data = calcrm)))
 summary(calc3model2022)
+confint(calc3model2022)
 
 back <- lm(gradecalc3 ~ ., data = calcrm)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -175,6 +181,7 @@ aem <- na.omit(aem[-c(6, 9, 13:16)])
 forward <- lm(AEM ~ 1, data = aem)
 aemmodel2018 <- step(forward, direction = "forward", scope = formula(lm(AEM ~ ., data = aem)))
 summary(aemmodel2018)
+confint(aemmodel2018)
 
 back <- lm(AEM ~ ., data = aem)
 backlm <- step(back, direction = "backward", trace = 0)
@@ -240,6 +247,7 @@ diff2024 <- subset(diff2024, diff2024$screentime > (Q[1] - 1.5*iqr) & diff2024$s
 forward <- lm(gradediffeq ~ 1, data = diff2024)
 diffeqmodel24 <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diff2024)))
 summary(diffeqmodel24)
+confint(diffeqmodel24)
 
 back <- lm(gradediffeq ~ ., data = diff2024)
 backlm <- step(back, direction = "backward", trace = 0)
