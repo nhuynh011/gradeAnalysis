@@ -78,6 +78,7 @@ calc3model <- step(forward, direction = "forward", scope = formula(lm(gradecalc3
 summary(calc3model)
 
 back <- lm(gradecalc3 ~ ., data = calcrm)
+confint(back)
 backlm <- step(back, direction = "backward", trace = 0)
 summary(backlm)
 
@@ -86,7 +87,7 @@ summary(both)
 bothlm <- step(both, direction = "both", trace = 0)
 summary(bothlm)
 # confirmed that all 3 models are the same
-confint(calc3model)
+
 
 ###
 # DiffEq
@@ -95,6 +96,7 @@ diffeqmodel <- step(forward, direction = "forward", scope = formula(lm(gradediff
 summary(diffeqmodel)
 
 back <- lm(gradediffeq ~ ., data = diffrm)
+confint(back)
 backlm <- step(back, direction = "backward", trace = 0)
 summary(backlm)
 
