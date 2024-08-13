@@ -71,6 +71,9 @@ ggpairs(diffeqrm[c(1, 7:17)])
 ################################################################################
 ### Stepwise Model
 # CALC3
+calc3lm <- lm(gradecalc3 ~ ., data = calc3rm)
+summary(calc3lm)
+confint(calc3lm)
 forward <- lm(gradecalc3 ~ 1, data = calc3rm)
 calc3model2022 <- step(forward, direction = "forward", scope = formula(lm(gradecalc3 ~ ., data = calc3rm)))
 summary(calc3model2022)
@@ -103,6 +106,9 @@ diffeq2024_2 <- subset(diff2024, diff2024$screentime > (Q[1] - 1.5*iqr) & diff20
 diffeq2024 <- inner_join(diffeq2024_1, diffeq2024_2)
 
 # Stepwise
+diffeqlm <- lm(gradediffeq ~ ., data = diffeq2024)
+summary(diffeqlm)
+confint(diffeqlm)
 forward <- lm(gradediffeq ~ 1, data = diffeq2024)
 diffeqmodel24 <- step(forward, direction = "forward", scope = formula(lm(gradediffeq ~ ., data = diffeq2024)))
 summary(diffeqmodel24)
