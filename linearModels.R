@@ -80,7 +80,6 @@ summary(calc3model2022)
 confint(calc3model2022)
 
 # AEM
-aem <- na.omit(aem[-c(6, 9, 13:16)])
 aemlm <- lm(AEM ~ ., data = aem)
 summary(aemlm)
 confint(aemlm)
