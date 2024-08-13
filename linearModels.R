@@ -81,7 +81,9 @@ confint(calc3model2022)
 
 # AEM
 aem <- na.omit(aem[-c(6, 9, 13:16)])
-
+aemlm <- lm(AEM ~ ., data = aem)
+summary(aemlm)
+confint(aemlm)
 forward <- lm(AEM ~ 1, data = aem)
 aemmodel2018 <- step(forward, direction = "forward", scope = formula(lm(AEM ~ ., data = aem)))
 summary(aemmodel2018)
