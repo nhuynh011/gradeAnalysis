@@ -88,6 +88,12 @@ aemmodel2018 <- step(forward, direction = "forward", scope = formula(lm(AEM ~ .,
 summary(aemmodel2018)
 confint(aemmodel2018)
 
+# Column stats
+amean <- apply(aem, 2, mean)
+adev <- apply(aem, 2, sd)
+amin <- apply(aem, 2, min)
+amax <- apply(aem, 2, max)
+
 # DIFFEQ (2024)
 diff2024 <- diffeq |> filter(year == "24")
 diff2024 <- na.omit(diff2024[-c(1:5, 18:19)])
