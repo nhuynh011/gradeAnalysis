@@ -65,8 +65,8 @@ dmax <- apply(diffeqrm, 2, max)
 ################################################################################
 ### Corr plots
 ggpairs(aem)
-ggpairs(calc3rm[c(1, 7:19)])
-ggpairs(diffeqrm[c(1, 7:17)])
+ggpairs(calc3rm)
+ggpairs(diffeqrm)
 
 ################################################################################
 ### Stepwise Model
@@ -87,6 +87,12 @@ summary(bothlm) # confirmed all are the same
 
 # AEM
 aem <- na.omit(aem[-c(6, 9, 13:16)])
+
+# Column stats
+amean <- apply(aem, 2, mean)
+adev <- apply(aem, 2, sd)
+amin <- apply(aem, 2, min)
+amax <- apply(aem, 2, max)
 
 forward <- lm(AEM ~ 1, data = aem)
 aemmodel2018 <- step(forward, direction = "forward", scope = formula(lm(AEM ~ ., data = aem)))
