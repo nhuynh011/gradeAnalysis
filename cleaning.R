@@ -1,14 +1,15 @@
 ### Cleaning file
 # Only cleans 1 file at a time
+# Currently set for cleaning MA231 files only, read comments to see which one is needed for diffeq/calc3
 
 # PRE-CLEANING
-#Load libraries for cleaning:
+# Load libraries for cleaning:
 library(tidyverse)
 library(readxl)
 library(here)
 
-#Load file 
-df <- read_xlsx(here("raw", "SURVEY FOR MA231-02 in Fall 2022.xlsx"))
+# Load file 
+df <- read_xlsx(here("raw", "SURVEY FOR MA231-01 in Fall 2022.xlsx"))
 
 #Remove columns A to K (the first question should be favorite season)
 df <- df[ -c(1:11) ]
@@ -16,8 +17,11 @@ df <- df[ -c(1:11) ]
 #Remove rows (first row should be row 4)
 df <- df[-c(1:2), ]
 
-#Rename columns:
-names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "gradediffeq", "calc2", "calc3", "diffeq", "nocourses", "gradecalc3", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
+# Rename columns:
+# MA231 (Calc 3)
+names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "gradediffeq", "calc2", "calc3", "diffeq", "noprereq", "gradecalc3", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
+# MA232 (Diff Eq)
+#names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "calc2", "calc3", "noprereq", "gradediffeq", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
 
 
 # Data dictionary:
@@ -56,13 +60,13 @@ df$calc2<-replace(df$calc2, df$calc2 != 0, 1)
 df$calc3[is.na(df$calc3)] <- 0
 df$calc3<-replace(df$calc3, df$calc3 != 0, 1)
 
-#DiffEq (NA = 0):
+#DiffEq (NA = 0): (Only for Calulus 3)
 df$diffeq[is.na(df$diffeq)] <- 0
 df$diffeq<-replace(df$diffeq, df$diffeq != 0, 1)
 
-#NoCourses (NA = 0):
-df$nocourses[is.na(df$nocourses)] <- 0
-df$nocourses<-replace(df$nocourses, df$nocourses != 0, 1)
+#NoPrereq(uisites) (NA = 0):
+df$noprereq[is.na(df$noprereq)] <- 0
+df$noprereq<-replace(df$noprereq, df$noprereq != 0, 1)
 
 #CoursePref (in person = 1, else 0, keep NA as NA):
 df$coursepref<-replace(df$coursepref, df$coursepref == "In-person", 1)
@@ -74,7 +78,7 @@ df$inpersonperf<-replace(df$inpersonperf, df$inpersonperf == "In-person format",
 
 # Converting responses from a categorical to numeric:
 #GradeCalc2 (0 to 12):
-df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "A+", 12)
+df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "A+", 13)
 df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "A", 12)
 df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "A-", 11)
 df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "B+", 10)
@@ -86,8 +90,8 @@ df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "C-", 5)
 df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "D", 3)
 df$gradecalc2<-replace(df$gradecalc2, df$gradecalc2 == "F", 0)
 
-#GradeDiffEq (0 to 12):
-df$gradediffeq<-replace(df$gradediffeq, df$gradediffeq == "A+", 12)
+#GradeDiffEq (0 to 12), only use for MA231 (Calculus 3):
+df$gradediffeq<-replace(df$gradediffeq, df$gradediffeq == "A+", 13)
 df$gradediffeq<-replace(df$gradediffeq, df$gradediffeq == "A", 12)
 df$gradediffeq<-replace(df$gradediffeq, df$gradediffeq == "A-", 11)
 df$gradediffeq<-replace(df$gradediffeq, df$gradediffeq == "B+", 10)
@@ -114,7 +118,7 @@ for (x in 2:18) {
 # Write out as an xlsx file
 # Change the output name depending on the file. 
 library(openxlsx)
-write.xlsx(df, "MA231 ONE PM FALL 2022.xlsx")
+write.xlsx(df, "MA231 TEN AM FALL 2022.xlsx")
 
 
 
