@@ -56,12 +56,6 @@ diffeqrm <- inner_join(diffeqrm1, diffeqrm2)
 
 diffeqrm <- diffeqrm |> relocate(gradediffeq)
 
-# Column stats
-dmean <- apply(diffeqrm, 2, mean)
-ddev <- apply(diffeqrm, 2, sd)
-dmin <- apply(diffeqrm, 2, min)
-dmax <- apply(diffeqrm, 2, max)
-
 ################################################################################
 ### Corr plots
 ggpairs(aem)
@@ -125,6 +119,12 @@ diffeq2024_2 <- subset(diff2024, diff2024$screentime > (Q[1] - 1.5*iqr) & diff20
 
 # Combine
 diffeq2024 <- inner_join(diffeq2024_1, diffeq2024_2)
+
+# Column stats
+dmean <- apply(diffeq2024, 2, mean)
+ddev <- apply(diffeq2024, 2, sd)
+dmin <- apply(diffeq2024, 2, min)
+dmax <- apply(diffeq2024, 2, max)
 
 # Stepwise
 forward <- lm(gradediffeq ~ 1, data = diffeq2024)
