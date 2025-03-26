@@ -1,0 +1,21 @@
+All surveys are self reported.
+
+Description of column names in MA23(...).xlsx, calc3.xlsx, diffeq.xlsx, and all.xlsx files:
+season: the student's favorite season
+iphone: 1 if the student uses an iPhone, 0 if they do not
+windows: 1 if the student uses Windows OS, 0 if they do not
+mndegrees: amount of minor degrees student is pursuing
+calc1: 1 if the student took Calculus I before attending their current university prior to this survey, 0 if not
+apcalc: 1 if the student took the course AP Calculus, 0 if not
+gradecalc2: the student's letter grade in Calculus II converted to a scale of 13
+gradediffeq: the student's letter grade in Elementary Differential Equations converted to a scale of 13
+calc2: 1 if the student took Calculus II at their current university prior to this survey, 0 if at a different university or taking Calculus II as a corequesite
+calc3: 1 if the student took Calculus III at their current university prior to this survey, 0 if not
+diffeq: 1 if the student took Elementary Differential Equations at their current university prior to this survey, 0 if not
+noprereq: 1 if the student does not have any of the prerequisites for Calculus III, 0 if they have taken the prerequisites prior to this survey
+gradecalc3: the student's current numerical grade in Calculus III out of 100
+screentime: the student's average daily screentime in the past week
+studyhours: amount of hours the student studies per week
+difficulty: 1 if the student thought this course was more difficult compared to other courses, 0 if they thought the course was around the same difficulty, and -1 if they thought this course is easier compared to other courses
+coursepref: 1 if the student prefers to take this course in person, 0 if the student prefers to take this course online regardless of their grade
+inpersonperf: 1 if the student believes they learn better if they took this course in person, 0 if the student believes they learn better if they took this course online
