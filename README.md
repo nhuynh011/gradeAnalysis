@@ -9,7 +9,7 @@ View the datadictionary.txt for more information on the survey.<br/>
 datafor_r.xlsx: 2018 student survey data from “Factors Influencing Success in Advanced Engineering Mathematics Courses: A Case Study” by Athavale et al. (2021).<br/>
 poll2023.csv: teenager's average screen time from https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx?utm_source=chartr&utm_medium=email&utm_campaign=chartr_20240617.<br/>
 <br/>
-Data Preparation:
+Data Preparation:<br/>
 cleaning.R: shows how files were cleaned from raws to MA23(...).xlsx files.<br/>
 prelim.R: joins all cleaned files by mathematics courses and returns calc3.xlsx, diffeq.xlsx, and all.xlsx, which are needed for all analysis files.<br/>
 <br/>
