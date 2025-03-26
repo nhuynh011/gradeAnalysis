@@ -19,12 +19,12 @@ linearModels.R: Correlation plots and stepwise regression of grade in mathematic
 tTest.R: t-tests of Calculus II grade, screentime, Elementary Differential Equations grade, and self-reported study hours. Includes box and whiskers plot of the 4 variables of interest.
 
 # Building the R file for visualizations
-It is easier and faster to obtain visualizations using the graphs branch since it has all the files needed for execution. If you want to use the main branch, you will need 3 extra xlsx obtained from prelim.R
+It is easier and faster to obtain visualizations using the graphs branch since it has all the files needed for execution. If you want to use the master branch, you will need 3 extra xlsx obtained from prelim.R
 
 For graphs branch:
 For any analysis file (anova.R, linearModels.R, or tTest.R), make sure the path to calc3.xlsx, diffeq.xlsx, and all.xlsx is correct according to your organization. Then, run the file from top to bottom for visualizations.
 
-For main branch:
+For master branch:
 First open prelim.R and check the file path for reading in MA23(...).xlsx files, make sure it is the right path. Run prelim.R to get calc3.xlsx, diffeq.xlsx, and all.xlsx. These xlsx will be needed for tTest.R, linearModels.R, and anova.R. Once you have calc3.xlsx, diffeq.xlsx, and all.xlsx, then you can run any analysis file for visualizations.
 
 # Support
