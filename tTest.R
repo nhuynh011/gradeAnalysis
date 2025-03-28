@@ -9,7 +9,7 @@ library(mosaic)
 #Load file:
 all <- read_xlsx(here("data", "all.xlsx"))
 
-diffeq <- read_xlsx(here("diffeq.xlsx"))
+diffeq <- read_xlsx(here("data", "diffeq.xlsx"))
 diffeq <- diffeq[, !names(diffeq) %in% "noprereq"]
 
 # Seperate data by section
@@ -90,6 +90,7 @@ iqr <- IQR(y23$screentime, na.rm = TRUE)
 y23 <- subset(y23, y23$screentime > (Q[1] - 1.5*iqr) & y23$screentime < (Q[2]+1.5*iqr))
 t.test(y23$screentime, mu = 4.8) #interesting!
 
+################################################################################
 # Gradecalc2
 # Comparing gradecalc2 for some years only. Wanted to show a difference from pre-COVID to post-COVID
 plot(gradecalc2 ~ as.factor(year), data=all)
@@ -153,7 +154,8 @@ iqr <- IQR(CalcDiff3$gradecalc2, na.rm = TRUE)
 CalcDiff <- subset(CalcDiff3, CalcDiff3$gradecalc2 > (Q[1] - 1.5*iqr) & CalcDiff3$gradecalc2 < (Q[2]+1.5*iqr))
 t.test(gradecalc2 ~ as.factor(year), data = CalcDiff)
 
-# Gradediffeq for diffeq only, calc3 survey didn't ask this.
+################################################################################
+# Gradediffeq for diffeq only, stat, calc3 survey didn't ask this.
 plot(gradediffeq ~ as.factor(year), data=diffeqtotal)
 
 # 2023 to 2024 (both section)
@@ -183,16 +185,23 @@ iqr <- IQR(diff23$gradediffeq, na.rm = TRUE)
 Diff <- subset(diff23, diff23$gradediffeq > (Q[1] - 1.5*iqr) & diff23$gradediffeq < (Q[2]+1.5*iqr))
 t.test(gradediffeq ~ as.factor(section), data = Diff)
 
+################################################################################
 # Study hours
 # Testing for difference in study hours. Observed in the bar charts earlier in prelim.R
-calc3total <- read_xlsx(here("calc3.xlsx"))
+calc3total <- read_xlsx(here("data", "calc3.xlsx"))
 calc3total <- calc3total[, !names(calc3total) %in% "noprereq"]
+stattotal <- read_xlsx(here("data", "stat.xlsx"))
+stattotal <- stattotal[, !names(stattotal) %in% "noprereq"]
 
 # Bind with diffeq
 cols3 <- colnames(select(diffeqtotal, -c("gradediffeq", "section")))
 postCOVID <- rbind(
   subset(calc3total, select = cols3), 
   subset(diffeqtotal, select = cols3)
+)
+postCOVID <- rbind(
+  postCOVID,
+  subset(stattotal, select = cols3)
 )
 plot(studyhours ~ as.factor(year), data = postCOVID)
 
