@@ -99,16 +99,6 @@ all <- rbind(
   subset(postCOVID, select = common)
 )
 
-# Change data type
-all$iphone <- as.numeric(all$iphone)
-all$mndegrees <- as.numeric(all$mndegrees)
-all$gradecalc2 <- as.numeric(all$gradecalc2)
-all$screentime <- as.numeric(all$screentime)
-
-postCOVID$studyhours <- as.numeric(postCOVID$studyhours)
-postCOVID$mndegrees <- as.numeric(postCOVID$mndegrees)
-postCOVID$gradecalc2 <- as.numeric(postCOVID$gradecalc2)
-
 ### GRAPHS
 # Now do some general graphs throughout covid
 ggplot(all, aes(x = factor(year), y = iphone)) + 
