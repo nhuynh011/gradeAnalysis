@@ -10,8 +10,8 @@ library(GGally)
 
 calc3 <- read_xlsx(here("data", "calc3.xlsx"))
 diffeq <- read_xlsx(here("data", "diffeq.xlsx"))
-aem <- read_xlsx("data", "datafor_r.xlsx")
-stat <- read_xlsx("data", "stat.xlsx")
+aem <- read_xlsx(here("data", "datafor_r.xlsx"))
+stat <- read_xlsx(here("data", "stat.xlsx"))
 
 # Remove noprereq, and others we don't need for now
 calc3 <- calc3[, !names(calc3) %in% "noprereq"]
@@ -321,3 +321,4 @@ both <- lm(gradediffeq ~ ., data = diff3rm)
 summary(both)
 bothlm <- step(both, direction = "both", trace = 0)
 summary(bothlm)
+
