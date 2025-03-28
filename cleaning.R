@@ -9,7 +9,8 @@ library(readxl)
 library(here)
 
 # Load file 
-df <- read_xlsx(here("raw", "SURVEY FOR MA232 at noon- Spring 2024.xlsx"))
+#df <- read_xlsx(here("raw", "SURVEY FOR MA232-01 in Spring 2023.xlsx"))
+df <- read_csv(here("raw", "SURVEY FOR STAT383 at 3PM-Fall 2024.csv"))
 
 #Remove columns A to K (the first question should be favorite season)
 df <- df[ -c(1:11) ]
@@ -18,7 +19,9 @@ df <- df[ -c(1:11) ]
 # MA231 (Calc 3)
 #names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "gradediffeq", "calc2", "calc3", "diffeq", "noprereq", "gradecalc3", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
 # MA232 (Diff Eq)
-names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "calc2", "calc3", "noprereq", "gradediffeq", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
+#names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "calc2", "calc3", "noprereq", "gradediffeq", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
+# MA383 (STAT)
+names(df) <- c("season", "iphone", "windows", "mndegrees", "calc1", "apcalc", "gradecalc2", "calc2", "calc3", "noprereq", "gradestat", "screentime", "studyhours", "difficulty", "coursepref", "inpersonperf")
 
 # Delete description row (now that we have column names, we don't need this)
 df <- df[-1,]
@@ -121,7 +124,7 @@ for (x in 2:16) {
 # Write out as an xlsx file
 # Change the output name depending on the file. 
 library(openxlsx)
-write.xlsx(df, "MA232 TWELVE PM SPRING 2024.xlsx")
+write.xlsx(df, "MA383 THREE PM FALL 2024.xlsx")
 
 
 
