@@ -3,11 +3,12 @@ This project analyzes survey data on university students' mathematics grades, ap
 
 # Contents
 Data:<br/>
-**raws**: has all the raw survey data collected from SurveyMonkey.<br/>
-**MA23(...).xlsx**: cleaned survey data to be processed using prelim.R before analysis.<br/>
-**datadictionary.txt**: A description of all columns in MA23(...).xlsx files.<br/>
+-> **raw**: has all the raw survey data collected from SurveyMonkey.<br/>
+-> **MA23(...).xlsx**: cleaned survey data to be processed using prelim.R before analysis.<br/>
+Also includes the following data:
 **datafor_r.xlsx**: 2018 student survey data from “Factors Influencing Success in Advanced Engineering Mathematics Courses: A Case Study” by Athavale et al. (2021).<br/>
 **poll2023.csv**: teenager's average screen time from https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx?utm_source=chartr&utm_medium=email&utm_campaign=chartr_20240617.<br/>
+**datadictionary.txt**: A description of all columns in MA23(...).xlsx files.<br/>
 <br/>
 Data Preparation:<br/>
 **cleaning.R**: shows how files were cleaned from raws to MA23(...).xlsx files.<br/>
