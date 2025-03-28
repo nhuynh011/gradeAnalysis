@@ -7,7 +7,7 @@ library(dplyr)
 library(mosaic)
 
 #Load file:
-all <- read_xlsx(here("all.xlsx"))
+all <- read_xlsx(here("data", "all.xlsx"))
 
 diffeq <- read_xlsx(here("diffeq.xlsx"))
 diffeq <- diffeq[, !names(diffeq) %in% "noprereq"]

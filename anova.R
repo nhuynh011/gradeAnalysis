@@ -7,8 +7,8 @@ library(readxl)
 library(yarrr)
 
 # Load files
-poll<- read.csv("poll2023.csv")
-all <- read_xlsx(here("all.xlsx"))
+poll<- read.csv("data", "poll2023.csv")
+all <- read_xlsx(here("data", "all.xlsx"))
 
 all$year <- as.factor(all$year)
 

@@ -9,13 +9,13 @@ library(readxl)
 library(dplyr)
 
 # Load files (5)
-c1<- read_xlsx(here("MA231 TEN AM FALL 2022.xlsx"))
-c2<- read_xlsx(here("MA231 ONE PM FALL 2022.xlsx"))
-d1<- read_xlsx(here("MA232 NINE AM SPRING 2024.xlsx"))
-d2<- read_xlsx(here("MA232 TWELVE PM SPRING 2024.xlsx"))
-s<- read_xlsx(here("MA232 TWELVE PM SPRING 2023.xlsx"))
-stat1 <- read_xlsx(here("MA383 TWO PM FALL 2024.xlsx"))
-stat2 <- read_xlsx(here("MA383 THREE PM FALL 2024.xlsx"))
+c1<- read_xlsx(here("MA23(...) files", "MA231 TEN AM FALL 2022.xlsx"))
+c2<- read_xlsx(here("MA23(...) files", "MA231 ONE PM FALL 2022.xlsx"))
+d1<- read_xlsx(here("MA23(...) files", "MA232 NINE AM SPRING 2024.xlsx"))
+d2<- read_xlsx(here("MA23(...) files", "MA232 TWELVE PM SPRING 2024.xlsx"))
+s<- read_xlsx(here("MA23(...) files", "MA232 TWELVE PM SPRING 2023.xlsx"))
+stat1 <- read_xlsx(here("MA23(...) files", "MA383 TWO PM FALL 2024.xlsx"))
+stat2 <- read_xlsx(here("MA23(...) files", "MA383 THREE PM FALL 2024.xlsx"))
 
 # Add more information to the files and combine them
 # Add column describing the year, course name, and semester
@@ -132,8 +132,8 @@ ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
 
 # Export needed files
 library(openxlsx)
-write.xlsx(calc3total, "calc3.xlsx")
-write.xlsx(diffeqtotal, "diffeq.xlsx")
-write.xlsx(stattotal, "stat.xlsx")
-write.xlsx(all, "all.xlsx")
+write.xlsx(calc3total, here("data", "calc3.xlsx"))
+write.xlsx(diffeqtotal, here("data", "diffeq.xlsx"))
+write.xlsx(stattotal, here("data", "stat.xlsx"))
+write.xlsx(all, here("data", "all.xlsx"))
 

@@ -8,15 +8,18 @@ library(dplyr)
 library(mosaic)
 library(GGally)
 
-calc3 <- read_xlsx(here("calc3.xlsx"))
-diffeq <- read_xlsx(here("diffeq.xlsx"))
-aem <- read_xlsx("datafor_r.xlsx")
+calc3 <- read_xlsx(here("data", "calc3.xlsx"))
+diffeq <- read_xlsx(here("data", "diffeq.xlsx"))
+aem <- read_xlsx("data", "datafor_r.xlsx")
+stat <- read_xlsx("data", "stat.xlsx")
 
 # Remove noprereq, and others we don't need for now
 calc3 <- calc3[, !names(calc3) %in% "noprereq"]
 diffeq <- diffeq[, !names(diffeq) %in% "noprereq"]
+stat <- stat[, !names(stat) %in% "noprereq"]
 calcpre<- na.omit(calc3[-c(1:5, 20:21)])
 diffpre<- na.omit(diffeq[-c(1:5, 18:19)])
+statpre <- na.omit(stat[-c(1:5, 18:19)])
 
 ### Calc3
 # screentime
@@ -40,7 +43,7 @@ cdev <- apply(calc3rm, 2, sd)
 cmin <- apply(calc3rm, 2, min)
 cmax <- apply(calc3rm, 2, max)
 
-# DiffEq
+### DiffEq
 # screentime
 Q <- quantile(diffpre$screentime, probs=c(.25, .75), na.rm = TRUE)
 iqr <- IQR(diffpre$screentime, na.rm = TRUE)
@@ -56,11 +59,40 @@ diffeqrm <- inner_join(diffeqrm1, diffeqrm2)
 
 diffeqrm <- diffeqrm |> relocate(gradediffeq)
 
+# Column stats
+dmean <- apply(diffeqrm, 2, mean)
+ddev <- apply(diffeqrm, 2, sd)
+dmin <- apply(diffeqrm, 2, min)
+dmax <- apply(diffeqrm, 2, max)
+
+### Stat
+# Screentime
+Q <- quantile(statpre$screentime, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(statpre$screentime, na.rm = TRUE)
+statrm1 <- subset(statpre, statpre$screentime > (Q[1] - 1.5*iqr) & statpre$screentime < (Q[2]+1.5*iqr))
+
+# study hours
+Q <- quantile(statpre$studyhours, probs=c(.25, .75), na.rm = TRUE)
+iqr <- IQR(statpre$studyhours, na.rm = TRUE)
+statrm2 <- subset(statpre, statpre$studyhours > (Q[1] - 1.5*iqr) & statpre$studyhours < (Q[2]+1.5*iqr))
+
+#Combine the things in common between the two
+statrm <- inner_join(statrm1, statrm2)
+
+statrm <- statrm |> relocate(gradestat)
+
+# Column stats
+smean <- apply(statrm, 2, mean)
+sdev <- apply(statrm, 2, sd)
+smin <- apply(statrm, 2, min)
+smax <- apply(statrm, 2, max)
+
 ################################################################################
 ### Corr plots
 ggpairs(aem)
 ggpairs(calc3rm)
 ggpairs(diffeqrm)
+ggpairs(statrm)
 
 ################################################################################
 ### Stepwise Model
