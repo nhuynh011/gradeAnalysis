@@ -14,6 +14,8 @@ c2<- read_xlsx(here("MA231 ONE PM FALL 2022.xlsx"))
 d1<- read_xlsx(here("MA232 NINE AM SPRING 2024.xlsx"))
 d2<- read_xlsx(here("MA232 TWELVE PM SPRING 2024.xlsx"))
 s<- read_xlsx(here("MA232 TWELVE PM SPRING 2023.xlsx"))
+stat1 <- read_xlsx(here("MA383 TWO PM FALL 2024.xlsx"))
+stat2 <- read_xlsx(here("MA383 THREE PM FALL 2024.xlsx"))
 
 # Add more information to the files and combine them
 # Add column describing the year, course name, and semester
@@ -37,6 +39,14 @@ s <- s|> mutate(year = 23,
                 semester = 1, #fall = 0, spring =1
                 time = times(paste0(12, ":00", ":00")),
                 coursecode = 232) 
+stat1 <- stat1|> mutate(year = 24,
+                    semester = 0, #fall = 0, spring =1
+                    time = times(paste0(14, ":00", ":00")),
+                    coursecode = 383) 
+stat2 <- stat2|> mutate(year = 24,
+                        semester = 0, #fall = 0, spring =1
+                        time = times(paste0(15, ":00", ":00")),
+                        coursecode = 383) 
 
 # Move newly added columns to the front
 c1 <- c1|>relocate(c("year", "semester", "time", "coursecode"))
@@ -44,21 +54,29 @@ c2 <- c2|>relocate(c("year", "semester", "time", "coursecode"))
 d1 <- d1|>relocate(c("year", "semester", "time", "coursecode"))
 d2 <- d2|>relocate(c("year", "semester", "time", "coursecode"))
 s <- s|>relocate(c("year", "semester", "time", "coursecode"))
+stat1 <- stat1|>relocate(c("year", "semester", "time", "coursecode"))
+stat2 <- stat2|>relocate(c("year", "semester", "time", "coursecode"))
 
 # Combine sets
 calc3total <- rbind(c1, c2)
 diffeqtotal <- rbind(d1, d2, s)
 diffeqdf <- rbind(d1, d2)
+stattotal <- rbind(stat1, stat2)
 
 # Moved columns around so dataset matches
 calc3total <- calc3total|>relocate("gradecalc2", .after = "noprereq")
 diffeqtotal <- diffeqtotal|>relocate("gradecalc2", .after = "noprereq")
+stattotal <- stattotal|>relocate("gradecalc2", .after = "noprereq")
 
 # Bind all recent survey data
 cols3 <- colnames(dplyr::select(calc3total, -c("gradediffeq", "diffeq", "noprereq", "gradecalc3")))
 postCOVID <- rbind(
   subset(calc3total, select = cols3), 
   subset(diffeqtotal, select = cols3)
+)
+postCOVID <- rbind(
+  postCOVID,
+  subset(stattotal, select = cols3)
 )
 
 # We want to do meta analysis of past data
@@ -80,6 +98,16 @@ all <- rbind(
   subset(preCOVID, select = common), 
   subset(postCOVID, select = common)
 )
+
+# Change data type
+all$iphone <- as.numeric(all$iphone)
+all$mndegrees <- as.numeric(all$mndegrees)
+all$gradecalc2 <- as.numeric(all$gradecalc2)
+all$screentime <- as.numeric(all$screentime)
+
+postCOVID$studyhours <- as.numeric(postCOVID$studyhours)
+postCOVID$mndegrees <- as.numeric(postCOVID$mndegrees)
+postCOVID$gradecalc2 <- as.numeric(postCOVID$gradecalc2)
 
 ### GRAPHS
 # Now do some general graphs throughout covid
@@ -116,5 +144,6 @@ ggplot(postCOVID, aes(x=factor(year), y = gradecalc2))+
 library(openxlsx)
 write.xlsx(calc3total, "calc3.xlsx")
 write.xlsx(diffeqtotal, "diffeq.xlsx")
+write.xlsx(stattotal, "stat.xlsx")
 write.xlsx(all, "all.xlsx")
 
