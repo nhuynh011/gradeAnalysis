@@ -173,7 +173,21 @@ summary(both)
 bothlm <- step(both, direction = "both", trace = 0)
 summary(bothlm)
 
+# STAT (2024)
+# Stepwise
+forward <- lm(gradestat ~ 1, data = statrm)
+statmodel2024 <- step(forward, direction = "forward", scope = formula(lm(gradestat ~ ., data = statrm)))
+summary(statmodel2024)
+confint(statmodel2024)
 
+back <- lm(gradestat ~ ., data = statrm)
+backlm <- step(back, direction = "backward", trace = 0)
+summary(backlm)
+
+both <- lm(gradestat ~ ., data = statrm)
+summary(both)
+bothlm <- step(both, direction = "both", trace = 0)
+summary(bothlm)
 ################################################################################
 ### UNUSED MODELS
 # DIFFEQ (2023)
