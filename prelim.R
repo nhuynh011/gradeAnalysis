@@ -81,7 +81,7 @@ postCOVID <- rbind(
 
 # We want to do meta analysis of past data
 # Load data
-preCOVID <- read_xlsx("datafor_r.xlsx")
+preCOVID <- read_xlsx(here("data", "datafor_r.xlsx"))
 
 # Clean
 # time here is if the class is MWF or TuTh, where MWF is 1.
